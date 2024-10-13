@@ -88,18 +88,18 @@ public class Park {
     }
 
     public class Attraction {
-        private String attraction;
+        private String attractionName;
         private String openTime;
         private double cost;
 
-        public Attraction(String attraction, String openTime, double cost) {
-            this.attraction = attraction;
+        public Attraction(String attractionName, String openTime, double cost) {
+            this.attractionName = attractionName;
             this.openTime = openTime;
             this.cost = cost;
         }
 
-        public String getAttraction() {
-            return attraction;
+        public String getAttractionName() {
+            return attractionName;
         }
 
         public String getOpenTime() {
