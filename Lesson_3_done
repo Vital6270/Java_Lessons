@@ -97,17 +97,5 @@ public class Park {
             this.openTime = openTime;
             this.cost = cost;
         }
-
-        public String getAttractionName() {
-            return attractionName;
-        }
-
-        public String getOpenTime() {
-            return openTime;
-        }
-
-        public double getCost() {
-            return cost;
-        }
     }
 }
