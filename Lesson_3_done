@@ -18,16 +18,19 @@ public class Employee {
         this.age = age;
     }
 
-    public void getEmployeeInfo(String name, String position, String email, String phoneNumber, int salary, int age) {
-        System.out.println("Employee's name is: " + name + "\nAge: " + age
-            + "\nPosition: " + position + "\nEmail: " + email + "\nPhone number: " +
-                phoneNumber + "\nSalary: " + salary);
+    public void getEmployeeInfo(Employee employee) {
+        System.out.println("Employee's name is: " + employee.name + "\nAge: " + employee.age
+                + "\nPosition: " + employee.position + "\nEmail: " + employee.email + "\nPhone number: " +
+                employee.phoneNumber + "\nSalary: " + employee.salary);
     }
+}
 
     // Задание 2. Создать массив из 5 сотрудников. Пример: вначале объявляем массив объектов Person[] persArray = new Person[5]; потом для каждой ячейки массива задаем объект
     // persArray[0] = new Person("Ivanov Ivan", "Engineer", "ivivan@mailbox.com", "892312312", 30000, 30); persArray[1] = new Person(...); ... persArray[4] = new Person(...);
 
     // мы продолжаем работу в том же классе Employee, который был создан для задания номер 1:
+
+public class Employee {
 
     Employee employee1 = new Employee("Ivanov Ivan", "Engineer", "ivivan@mailbox.com", "892312312", 30000, 30);
     Employee employee2 = new Employee("Sidorov Petr", "Tester", "sidorov@mailbox.com", "872315348", 20000, 40);
