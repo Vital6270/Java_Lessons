@@ -1,0 +1,310 @@
+/* Задание 1:
+Создать классы Собака и Кот с наследованием от класса Животное. 
+Все животные могут бежать и плыть. В качестве параметра каждому методу передается длина препятствия. Результатом выполнения действия будет печать в консоль. (Например, dogBobik.run(150); -> 'Бобик пробежал 150 м.'); 
+У каждого животного есть ограничения на действия (бег: кот 200 м., собака 500 м.; плавание: кот не умеет плавать, собака 10 м.). 
+Добавить подсчет созданных котов, собак и животных.
+Расширить задачу, добавив для котов возможность кушать из миски, выполнив следующие пункты: 
+Сделать так, чтобы в миске с едой не могло получиться отрицательного количества еды (например, в миске 10 еды, а кот пытается покушать 15-20). 
+Каждому коту нужно добавить поле сытость (когда создаем котов, они голодны). Если коту удалось покушать (хватило еды), сытость = true. 
+Считаем, что если коту мало еды в миске, то он её просто не трогает, то есть не может быть наполовину сыт (это сделано для упрощения логики программы). 
+Создать массив котов и миску с едой, попросить всех котов покушать из этой миски и потом вывести информацию о сытости котов в консоль. 
+Добавить метод, с помощью которого можно было бы добавлять еду в миску.
+*/
+
+// Суперкласс Животное
+public class Animal {
+    private static int animalCount = 0; // Счетчик животных
+
+    public Animal() {
+        animalCount++;
+    }
+
+    public void run(int distance) {
+        System.out.println("Животное пробежало " + distance + " м.");
+    }
+
+    public void swim(int distance) {
+        System.out.println("Животное проплыло " + distance + " м.");
+    }
+
+    public static int getAnimalCount() {
+        return animalCount;
+    }
+}
+
+// Класс Собака
+public class Dog extends Animal {
+    private static int dogCount = 0; // Счетчик собак
+    private String name;
+
+    public Dog(String name) {
+        super();
+        this.name = name;
+        dogCount++;
+    }
+
+    @Override
+    public void run(int distance) {
+        if (distance <= 500) {
+            System.out.println(name + " пробежал " + distance + " м.");
+        } else {
+            System.out.println(name + " не может пробежать " + distance + " м.");
+        }
+    }
+
+    @Override
+    public void swim(int distance) {
+        if (distance <= 10) {
+            System.out.println(name + " проплыл " + distance + " м.");
+        } else {
+            System.out.println(name + " не может проплыть " + distance + " м.");
+        }
+    }
+
+    public static int getDogCount() {
+        return dogCount;
+    }
+}
+
+// класс Кот, дальше будет еще класс Миска
+public class Cat extends Animal {
+    private static int catCount = 0; // Счетчик котов
+    private String name;
+    private boolean isFull; // Сытость кота
+
+    public Cat(String name) {
+        super();
+        this.name = name;
+        this.isFull = false; // Кот изначально голодный
+        catCount++;
+    }
+
+    @Override
+    public void run(int distance) {
+        if (distance <= 200) {
+            System.out.println(name + " пробежал " + distance + " м.");
+        } else {
+            System.out.println(name + " не может пробежать " + distance + " м.");
+        }
+    }
+
+    @Override
+    public void swim(int distance) {
+        System.out.println(name + " не умеет плавать.");
+    }
+
+    public void eat(int foodAmount, Bowl bowl) {
+        if (bowl.getFoodAmount() >= foodAmount) {
+            bowl.decreaseFood(foodAmount);
+            isFull = true; // Кот сыт
+            System.out.println(name + " покушал " + foodAmount + " единиц еды.");
+        } else {
+            System.out.println(name + " не хватает еды в миске, чтобы покушать " + foodAmount + " единиц еды.");
+        }
+    }
+
+    public boolean isFull() {
+        return isFull;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static int getCatCount() {
+        return catCount;
+    }
+}
+
+// Класс Миска
+public class Bowl {
+    private int foodAmount;
+
+    public Bowl(int initialFood) {
+        this.foodAmount = initialFood;
+    }
+
+    public int getFoodAmount() {
+        return foodAmount;
+    }
+
+    public void decreaseFood(int amount) {
+        if (foodAmount - amount < 0) {
+            System.out.println("Недостаточно еды в миске для уменьшения на " + amount);
+        } else {
+            foodAmount -= amount;
+        }
+    }
+
+    public void addFood(int amount) {
+        foodAmount += amount;
+        System.out.println("В миску добавлено " + amount + " единиц еды.");
+    }
+}
+
+// Главный класс для тестирования
+public class Main {
+    public static void main(String[] args) {
+        Bowl bowl = new Bowl(30); // Создаем миску с 30 единицами еды
+
+        Cat[] cats = {
+                new Cat("Персик"),
+                new Cat("Митя"),
+                new Cat("Вася")
+        }; // массив с котами
+
+        for (Cat cat : cats) {
+            cat.eat(20, bowl); 
+        }  // Каждый кот пытается покушать 20 единиц еды
+
+        for (Cat cat : cats) {
+            System.out.println(cat.getName() + " сытость: " + (cat.isFull() ? "Сыт" : "Голоден"));
+        } // Печатаем информацию о сытости котов
+
+        bowl.addFood(30); // Добавляем 30 единиц еды в миску
+
+        for (Cat cat : cats) {
+            cat.eat(20, bowl); // Каждый кот снова пытается покушать 20 единиц еды
+        }
+
+        for (Cat cat : cats) {
+            System.out.println(cat.getName() + " сытость: " + (cat.isFull() ? "Сыт" : "Голоден"));
+        } // Печатаем информацию о сытости котов после второго раза
+
+        // Выводим оставшееся количество еды в миске
+        System.out.println("Оставшееся количество еды в миске: " + bowl.getFoodAmount() + " единиц.");
+    }
+}
+
+/* Задание 2:
+Применяя интерфейсы написать программу расчета периметра и площади геометрических фигур: круг, прямоугольник, треугольник. 
+Задать для каждой фигуры цвет заливки и цвет границы. 
+Результат полученных характеристик [ Периметр, площадь, цвет фона, цвет границ ] по каждой фигуре вывести в консоль. 
+Попробуйте реализовать базовые методы, такие как расчет периметра фигур, в качестве дефолтных методов в интерфейсе. */
+
+// Интерфейс Shape с дефолтным методом
+interface Shape {
+    double area(); // Метод для расчета площади
+    double perimeter(); // Метод для расчета периметра
+
+    // Дефолтный метод для вывода характеристик фигуры
+    default void printCharacteristics(String fillColor, String borderColor) {
+        System.out.println("Цвет заливки: " + fillColor);
+        System.out.println("Цвет границ: " + borderColor);
+    }
+}
+
+// Класс Круг
+public class Circle implements Shape {
+    private double radius;
+    private String fillColor;
+    private String borderColor;
+
+    public Circle(double radius, String fillColor, String borderColor) {
+        this.radius = radius;
+        this.fillColor = fillColor;
+        this.borderColor = borderColor;
+    }
+
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+
+    @Override
+    public double perimeter() {
+        return 2 * Math.PI * radius;
+    }
+
+    public void printDetails() {
+        System.out.println("Фигура: Круг");
+        System.out.println("Площадь: " + area());
+        System.out.println("Периметр: " + perimeter());
+        printCharacteristics(fillColor, borderColor);
+    }
+}
+
+// Класс Прямоугольник
+class Rectangle implements Shape {
+    private double width;
+    private double height;
+    private String fillColor;
+    private String borderColor;
+
+    public Rectangle(double width, double height, String fillColor, String borderColor) {
+        this.width = width;
+        this.height = height;
+        this.fillColor = fillColor;
+        this.borderColor = borderColor;
+    }
+
+    @Override
+    public double area() {
+        return width * height;
+    }
+
+    @Override
+    public double perimeter() {
+        return 2 * (width + height);
+    }
+
+    public void printDetails() {
+        System.out.println("Фигура: Прямоугольник");
+        System.out.println("Площадь: " + area());
+        System.out.println("Периметр: " + perimeter());
+        printCharacteristics(fillColor, borderColor);
+    }
+}
+
+// Класс Треугольник
+class Triangle implements Shape {
+    private double sideA;
+    private double sideB;
+    private double sideC;
+    private String fillColor;
+    private String borderColor;
+
+    public Triangle(double sideA, double sideB, double sideC, String fillColor, String borderColor) {
+        this.sideA = sideA;
+        this.sideB = sideB;
+        this.sideC = sideC;
+        this.fillColor = fillColor;
+        this.borderColor = borderColor;
+    }
+
+    @Override
+    public double area() {
+        double s = perimeter() / 2; // Полупериметр
+        return Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC)); // Формула Герона
+    }
+
+    @Override
+    public double perimeter() {
+        return sideA + sideB + sideC;
+    }
+
+    public void printDetails() {
+        System.out.println("Фигура: Треугольник");
+        System.out.println("Площадь: " + area());
+        System.out.println("Периметр: " + perimeter());
+        printCharacteristics(fillColor, borderColor);
+    }
+}
+
+// Главный класс для тестирования
+public class Main {
+    public static void main(String[] args) {
+        Shape circle = new Circle(10, "Красный", "Белый");
+        ((Circle) circle).printDetails();
+
+        System.out.println();
+
+        Shape rectangle = new Rectangle(2, 4, "Черный", "Зеленый");
+        ((Rectangle) rectangle).printDetails();
+
+        System.out.println();
+
+        Shape triangle = new Triangle(4, 5, 6, "Желтый", "Синийй");
+        ((Triangle) triangle).printDetails();
+    }
+}
