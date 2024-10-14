@@ -1,7 +1,8 @@
 public class Main {
     public static void main(String[] args) {
+        
         Bowl bowl = new Bowl(30); // Создаем миску с 30 единицами еды
-
+        // --------Задание 1------------------------------------------------------
         Cat[] cats = {
                 new Cat("Персик"),
                 new Cat("Митя"),
@@ -28,5 +29,20 @@ public class Main {
 
         // Выводим оставшееся количество еды в миске
         System.out.println("Оставшееся количество еды в миске: " + bowl.getFoodAmount() + " единиц.");
+        
+
+        // --------Задание 2------------------------------------------------------
+        Shape circle = new Circle(5, "Красный", "Черный");
+        ((Circle) circle).printDetails();
+
+        System.out.println();
+
+        Shape rectangle = new Rectangle(4, 6, "Синий", "Зеленый");
+        ((Rectangle) rectangle).printDetails();
+
+        System.out.println();
+
+        Shape triangle = new Triangle(3, 4, 5, "Желтый", "Фиолетовый");
+        ((Triangle) triangle).printDetails();
     }
 }
