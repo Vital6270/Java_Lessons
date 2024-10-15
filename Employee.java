@@ -43,9 +43,9 @@ public class Employee {
         return age;
     }
 
-    public void getEmployeeInfo (Employee employee){
-        System.out.println("Employee's name is: " + employee.getName() + "\nAge: " + employee.getAge()
-                + "\nPosition: " + employee.getPosition() + "\nEmail: " + employee.getEmail() + "\nPhone number: " +
-                employee.getPhoneNumber() + "\nSalary: " + employee.getSalary());
+    public void getEmployeeInfo (){
+            System.out.println("Employee's name is: " + name + "\nAge: " + age
+                    + "\nPosition: " + position + "\nEmail: " + email + "\nPhone number: " +
+                    phoneNumber + "\nSalary: " + salary);
     }
 }
