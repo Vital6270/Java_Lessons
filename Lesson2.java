@@ -77,7 +77,7 @@ public class Lesson2 {
     //если число отрицательное, и вернуть false если положительное.
 
     public static boolean isNumberPositive(int a) {
-        return a <= 0;
+        return a < 0;
     }
 
     //8. Напишите метод, которому в качестве аргументов передается строка и число, метод должен
