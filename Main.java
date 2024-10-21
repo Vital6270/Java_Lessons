@@ -24,16 +24,21 @@ public class Main {
 
         PhoneBook phoneBook = new PhoneBook();
 
-        phoneBook.add("Иванов", "+1234567");
-        phoneBook.add("Иванов", "+9876543");
-        phoneBook.add("Петров", "+5551234");
-        phoneBook.add("Сидоров", "+5555678");
-        phoneBook.add("Иванов", "+5558765");
+        phoneBook.add("+1234567", "Иванов");
+        phoneBook.add("+9876543", "Иванов");
+        phoneBook.add("+5551234", "Петров");
+        phoneBook.add("+55556788", "Сидоров");
+        phoneBook.add("+5558765", "Иванов");
 
-        // Ищем телефоны по фамилии
+        // ищем телефоны по фамилии
         System.out.println("Телефоны Иванова: " + phoneBook.get("Иванов"));
         System.out.println("Телефоны Петрова: " + phoneBook.get("Петров"));
         System.out.println("Телефоны Сидорова: " + phoneBook.get("Сидоров"));
-        System.out.println("Телефоны Смирнова: " + phoneBook.get("Смирнов")); // Фамилия не найдена
+        System.out.println(phoneBook.get("Морозов")); // выдаст пустой список
+
+        phoneBook.add("Смирнов", "+55556788"); // дублируем существующий номер для другого человека
+        phoneBook.add("Казанов", "+1234567"); // аналогично
+        System.out.println("Телефоны Смирнова и Казанова: " + phoneBook.get("Смирнов")
+                + phoneBook.get("Казанов")); // фамилии не найдены
     }
 }
