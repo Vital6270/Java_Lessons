@@ -1,5 +1,5 @@
 // Суперкласс Животное
-public class Animal {
+public abstract class Animal {
     private static int animalCount = 0; // Счетчик животных
 
     public Animal() {
