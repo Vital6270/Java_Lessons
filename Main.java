@@ -36,3 +36,4 @@ public class Main {
         employee2.getEmployeeInfo();
 
     }
+}
