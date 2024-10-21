@@ -16,7 +16,7 @@ public class PhoneBook {
     }
 
     // Метод для добавления записи
-    public void add(String lastName, String phoneNumber) {
+    public void add(String phoneNumber, String lastName) {
         book.putIfAbsent(lastName, new ArrayList<>());
         book.get(lastName).add(phoneNumber);
     }
