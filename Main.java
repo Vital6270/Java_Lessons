@@ -7,8 +7,14 @@
 
 public class Main {
     public static int sumArrayValues(String[][] arr) throws MyArraySizeException, MyArrayDataException {
-        if (arr.length != 4 || arr[0].length != 4) {
-            throw new MyArraySizeException();
+        if (arr.length != 4) {
+            throw new MyArraySizeException("Массив должен иметь 4 строки");
+        }
+
+        for (String[] row : arr) {
+            if (row.length != 4) {
+                throw new MyArraySizeException("Строка массива должна содержать 4 элемента");
+            }
         }
 
         int sum = 0;
@@ -17,41 +23,65 @@ public class Main {
             for (int j = 0; j < arr[i].length; j++) {
                 try {
                     sum += Integer.parseInt(arr[i][j]);
-                } catch (IllegalArgumentException e) {
-                    throw new MyArrayDataException("Неверные данные в массиве, ячейка [" + i + "][" + j + "]: " + arr[i][j]);
+                } catch (NumberFormatException e) {
+                    throw new MyArrayDataException("Ошибка преобразования в ячейке [" + i + "][" + j + "]: " + arr[i][j]);
                 }
             }
         }
+
         return sum;
     }
 
-    public static void main(String[] args) throws MyArraySizeException, MyArrayDataException {
+    public static void main(String[] args) {
+        String[][] validArray = {
+                {"1", "2", "3", "4"},
+                {"5", "6", "7", "8"},
+                {"9", "10", "11", "12"},
+                {"13", "14", "15", "16"}
+        };
 
-        String[][] arrValid = {
+        String[][] invalidSizeArray = {
+                {"1", "2", "3"},
+                {"4", "5", "6"}
+        };
+
+        String[][] invalidDataArray = {
+                {"1", "2", "3", "4"},
+                {"5", "six", "7", "8"},
+                {"9", "10", "11", "12"},
+                {"13", "14", "15", "16"}
+        };
+
+        String[][] invalidWidthArray = {
                 {"1", "1", "1", "1"},
                 {"0", "0", "0", "0"},
                 {"3", "3", "3", "3"},
-                {"2", "2", "2", "2"}
+                {"2", "2", "2", "2", "2"}
         };
 
-        String[][] arrInvalidLength = {
-                {"1", "1", "1", "1"},
-                {"0", "0", "0", "0"},
-                {"3", "3", "3", "3"},
-                {"2", "2", "2", "2"},
-                {"4", "4", "4", "4"}
-        };
+        try {
+            int sum = sumArrayValues(validArray);
+            System.out.println("Сумма элементов массива: " + sum);
+        } catch (MyArraySizeException | MyArrayDataException e) {
+            System.out.println(e.getMessage());
+        }
 
-        String[][] arrInvalidSymbol = {
-                {"a", "1", "1", "1"},
-                {"3", "3", "3", "3"},
-                {"2", "2", "2", "2"},
-                {"4", "4", "4", "4"}
-        };
+        try {
+            sumArrayValues(invalidSizeArray);
+        } catch (MyArraySizeException | MyArrayDataException e) {
+            System.out.println(e.getMessage());
+        }
 
-        // теперь проверяем на валидных и невалидных массивах
-        System.out.println("Результат расчета: " + sumArrayValues(arrValid));
-        System.out.println("Результат расчета: " + sumArrayValues(arrInvalidLength));
-        //System.out.println("Результат расчета: " + sumArrayValues(arrInvalidSymbol));
+        try {
+            sumArrayValues(invalidDataArray);
+        } catch (MyArraySizeException | MyArrayDataException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            sumArrayValues(invalidWidthArray);
+        } catch (MyArraySizeException | MyArrayDataException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
