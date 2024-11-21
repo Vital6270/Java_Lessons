@@ -1,2 +1,2 @@
 # Java_Lessons
-For studying Java
+Java for beginners
